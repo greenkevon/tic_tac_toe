@@ -1,0 +1,25 @@
+<% flash.each do |name, msg| -%>
+  <%= content_tag :div, msg, class: name %>
+<% end -%>
+
+Players: <%= @game.players %>
+
+<br />
+
+
+
+<% @game.data.each_with_index do |row, x| %>
+  <% row.each_with_index do |value, y| %>
+    <% if value.blank? %>
+      <%= form_tag game_path(params[:id]), method: :put do %>
+        <%= hidden_field_tag :x, x %>
+        <%= hidden_field_tag :y, y %>
+        <%= submit_tag "play" %>
+      <% end %>
+    <% else %>
+      <%= value %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= button_to "REFRESH", game_path(params[:id]), method: :get %>
