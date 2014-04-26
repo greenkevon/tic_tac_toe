@@ -14,7 +14,13 @@ class GamesController < ApplicationController
   end
 
   def update
-    @game.play(session[:player_name], params[:x].to_i, params[:y].to_i)
+
+    if @game.players[0].to_s == session[:player_name]
+      @game.play(session[:player_name], params[:x].to_i, params[:y].to_i, 'X')
+    else
+      @game.play(session[:player_name], params[:x].to_i, params[:y].to_i, 'O')
+    end
+
 
     redirect_to game_path(@game.name)
   rescue Game::SpotTaken
@@ -35,6 +41,7 @@ end
 
 class Game
   SpotTaken = Class.new(StandardError)
+  FirstPlayVal = 'X'
 
   attr_reader :players, :name, :data
 
@@ -48,11 +55,11 @@ class Game
     players << player_name
   end
 
-  def play(player_name, x, y)
+  def play(player_name, x, y, mark)
     if data[x][y].present?
       raise SpotTaken
     else
-      data[x][y] = player_name
+      data[x][y] = mark.to_s.upcase #player_name
     end
 
     # check if someone has won the game

@@ -1,25 +1,37 @@
 <% flash.each do |name, msg| -%>
-  <%= content_tag :div, msg, class: name %>
+    <%= content_tag :div, msg, class: name %>
 <% end -%>
 
 Players: <%= @game.players %>
 
-<br />
+<br/>
 
 
-
+<% count = 1 %>
 <% @game.data.each_with_index do |row, x| %>
-  <% row.each_with_index do |value, y| %>
-    <% if value.blank? %>
-      <%= form_tag game_path(params[:id]), method: :put do %>
-        <%= hidden_field_tag :x, x %>
-        <%= hidden_field_tag :y, y %>
-        <%= submit_tag "play" %>
-      <% end %>
-    <% else %>
-      <%= value %>
+    <% row.each_with_index do |value, y| %>
+        <div style="float:left">
+          <% if value.blank? %>
+              <%= form_tag game_path(params[:id]), method: :put do %>
+                  <%= hidden_field_tag :x, x %>
+                  <%= hidden_field_tag :y, y %>
+                  <%= submit_tag 'play' %>
+              <% end %>
+          <% else %>
+              <%= value %>
+          <% end %>
+        </div>
+        <% if  count % 3 == 0 %>
+            <div style="clear:both"></div>
+        <% end %>
+
+        <% count += 1 %>
+
     <% end %>
-  <% end %>
 <% end %>
 
+
+<div style="clear:both"></div>
+<br/>
+<br/>
 <%= button_to "REFRESH", game_path(params[:id]), method: :get %>
