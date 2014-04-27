@@ -1,24 +1,33 @@
-<% flash.each do |name, msg| -%>
-    <%= content_tag :div, msg, class: name %>
-<% end -%>
-
-Players: <%= @game.players %>
+<% if  @game.winner %>
+    <div class="alert alert-warning alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong>Winner!</strong> <%= "The winner is: #{@game.winner}" %>
+    </div>
+<% end %>
 
 <br/>
-
 
 <% count = 1 %>
 <% @game.data.each_with_index do |row, x| %>
     <% row.each_with_index do |value, y| %>
         <div style="float:left">
           <% if value.blank? %>
-              <%= form_tag game_path(params[:id]), method: :put do %>
+              <%= form_tag game_path(params[:id]), {class: 'form-horizontal', role: 'form', method: :put} do %>
                   <%= hidden_field_tag :x, x %>
                   <%= hidden_field_tag :y, y %>
-                  <%= submit_tag 'play' %>
+                  <div class="well">
+                    <div class="box">
+
+                      <%= submit_tag 'play', :class => 'btn btn-default' %>
+                    </div>
+                  </div>
               <% end %>
           <% else %>
-              <%= value %>
+              <div class="well">
+                <div class="box">
+                  <h4><%= value %></h4>
+                </div>
+              </div>
           <% end %>
         </div>
         <% if  count % 3 == 0 %>
@@ -26,15 +35,17 @@ Players: <%= @game.players %>
         <% end %>
 
         <% count += 1 %>
-
     <% end %>
 <% end %>
 
-<% if  @game.winner %>
-    <%= "Winner is: #{@game.winner } " %>
-<% end %>
+
+<div class="well well-sm">
+  Game: <%= @game.name.titleize %>
+  <br/>
+  Players: <%= @game.players %>
+
+</div>
 
 <div style="clear:both"></div>
 <br/>
-<br/>
-<%= button_to "REFRESH", game_path(params[:id]), method: :get %>
+<%= button_to "Refresh", game_path(params[:id]), {:class => 'btn btn-primary', method: :get} %>
