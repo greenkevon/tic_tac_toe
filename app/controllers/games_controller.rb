@@ -15,13 +15,21 @@ class GamesController < ApplicationController
 
   def update
 
-    if @game.players[0].to_s == session[:player_name]
-      @game.play(session[:player_name], params[:x].to_i, params[:y].to_i, 'X')
-    else
-      @game.play(session[:player_name], params[:x].to_i, params[:y].to_i, 'O')
-    end
+    respond_to do |format|
 
-    redirect_to game_path(@game.name)
+      # if @game.players[0].to_s == session[:player_name]
+      #   @game.play(session[:player_name], params[:x].to_i, params[:y].to_i,  'X')
+      # else
+      #   @game.play(session[:player_name], params[:x].to_i, params[:y].to_i, 'O')
+      # end
+
+      @game.play(session[:player_name], params[:x].to_i, params[:y].to_i, @game.players[0].to_s == session[:player_name] ? 'X' : 'O')
+
+      format.html { redirect_to game_path(@game.name) }
+      format.js
+
+
+    end
 
   rescue Game::SpotTaken, Game::PlayOutOfTurn, Game::GameOver => e
     redirect_to game_path(@game.name), notice: e.class.to_s.demodulize.titleize

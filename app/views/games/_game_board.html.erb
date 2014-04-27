@@ -1,0 +1,32 @@
+
+<% count = 1 %>
+<% game.data.each_with_index do |row, x| %>
+    <% row.each_with_index do |value, y| %>
+        <div style="float:left">
+          <% if value.blank? %>
+              <%= form_tag game_path(params[:id]), {class: 'form-horizontal', role: 'form', method: :put} do %>
+                  <%= hidden_field_tag :x, x %>
+                  <%= hidden_field_tag :y, y %>
+                  <div class="well">
+                    <div class="box">
+
+                      <%= submit_tag 'play', :remote => true, :class => 'btn btn-default' %>
+                    </div>
+                  </div>
+              <% end %>
+          <% else %>
+              <div class="well">
+                <div class="box">
+                  <h4><%= value %></h4>
+                </div>
+              </div>
+          <% end %>
+        </div>
+        <% if  count % 3 == 0 %>
+            <div style="clear:both"></div>
+        <% end %>
+
+        <% count += 1 %>
+    <% end %>
+<% end %>
+
