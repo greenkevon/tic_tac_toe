@@ -1,28 +1,8 @@
-== README
+== Basic TicTacToe
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+This rails 4.1 app is a basic implementation of the TicTacToe game.
+* Click the New Game link in the menu bar
+* Enter the player's name in the name field
+* Enter the name of the game in the game field
+* The second player must use the same game name in order to participate in that game
+* Use two separate browsers when playing a game locally. This is necessary because browsers (even separate windows) will maintain the session
