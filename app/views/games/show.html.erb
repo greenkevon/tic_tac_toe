@@ -30,6 +30,9 @@ Players: <%= @game.players %>
     <% end %>
 <% end %>
 
+<% if  @game.winner %>
+    <%= "Winner is: #{@game.winner } " %>
+<% end %>
 
 <div style="clear:both"></div>
 <br/>
